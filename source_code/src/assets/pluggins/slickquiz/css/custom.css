@@ -1,0 +1,95 @@
+/* QUIZ STYLES */
+/* Styles to prettify the quiz page */
+
+
+
+
+
+
+.quizbox .button {
+    float: left;
+    width: auto;
+    padding: 5px 15px;
+    color:#ffffff;
+    background-color:darkcyan;
+    border: 1px solid #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.quizbox .button:hover {
+    background-color:darkslategray;
+}
+
+.quizbox .startQuiz {
+    margin-top: 40px;
+}
+
+.quizbox .tryAgain {
+    float: none;
+    margin: 20px 0;
+}
+
+/* clearfix */
+.quizArea, .quizResults {
+    zoom: 1;
+}
+.quizArea:before, .quizArea:after, .quizResults:before, .quizResults:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    font-size: 0;
+}
+.quizArea:after, .quizResults:after {
+    clear: both;
+}
+
+.quizbox .questionCount {
+    font-size: 14px;
+    font-style: italic;
+}
+.quizbox .questionCount span {
+    font-weight: bold;
+}
+
+.quizbox ol.questions {
+    margin-top: 20px;
+    margin-left: 0;
+}
+.quizbox ol.questions li {
+    margin-left: 0;
+}
+
+.quizbox ul.answers {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.quizbox ul.responses li {
+    margin: 10px 20px 20px;
+}
+.quizbox ul.responses li p span {
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+}
+.quizbox .complete ul.answers li.correct,.quizbox  ul.responses li.correct p span {
+    color: #6C9F2E;
+}
+.quizbox ul.responses li.incorrect p span {
+    color: #B5121B;
+}
+
+.quizbox .quizResults h3 {
+    margin: 0;
+}
+.quizbox .quizResults h3 span {
+    font-weight: normal;
+    font-style: italic;
+}
+.quizbox .quizResultsCopy {
+    clear: both;
+    margin-top: 20px;
+}

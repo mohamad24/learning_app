@@ -1,0 +1,30 @@
+<!--
+  Generated template for the BlogdetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary" >
+    <ion-title>{{article?.title}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-spinner *ngIf="showLoading"></ion-spinner>
+    <ion-card *ngIf="article" > 
+        <img  useImg  fallbackUrl="assets/icon/course.png" *ngIf="article?.picture != ''"  src="{{ basePath+'/'+article.picture }}" />
+        <ion-card-header> 
+            <div class="card-title"  text-wrap >{{article?.title}}</div>
+            <div class="card-subtitle"><small>{{ article?.date }}</small></div>
+
+        </ion-card-header>
+        <ion-card-content>
+            <p [innerHTML]="article?.content" ></p>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

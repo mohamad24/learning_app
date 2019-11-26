@@ -1,0 +1,3 @@
+<ion-list> 
+    <button *ngFor="let cur of currencies" ion-item (click)="setCurrency(cur)">{{cur.currency_name}} (<span [innerHTML]="cur.currency_symbol"></span>)</button>  
+  </ion-list>

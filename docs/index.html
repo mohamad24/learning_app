@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head lang="en">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<title>TrainEasy Mobile Documentation</title>
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="assets/blueprint-css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="assets/blueprint-css/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]><link rel="stylesheet" href="assets/blueprint-css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="assets/blueprint-css/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+	<style type="text/css" media="screen">
+		p, table, hr, .box { margin-bottom:25px; }
+		.box p { margin-bottom:10px; }
+		p {
+			font-size: 14px;
+			font-weight: bold;
+		}
+		pre {
+			padding: 24px;
+			border: 1px solid #EEEEEE;
+		}
+		hr {
+			height: 1px;
+		}
+	</style>
+</head>
+
+
+<body>
+	<div class="container">
+	
+		<h3 class="center alt">&ldquo;TrainEasy Mobile &rdquo; Documentation by &ldquo;Intermatics&rdquo; v1.0</h3>
+		
+		<hr>
+		
+		<h1 class="center">&ldquo;TrainEasy Training &nbsp; Learning Management System App &rdquo;</h1>
+		
+		<div class="borderTop">
+			<div class="span-6 colborder info prepend-1">
+				<p class="prepend-top">
+					<strong>
+					Created: 4/7/2019<br>
+					By: Intermatics<br>
+					Email: <a href="mailto:info@traineasy.net">info@traineasy.net</a>
+					</strong>
+				</p>
+			</div><!-- end div .span-6 -->		
+	
+			<div class="span-12 last">
+				<p class="prepend-top append-0">Thank you for purchasing our item. If you have any questions that are beyond the scope of this help file, please feel free to email via our user page contact form <a target="_blank" href="http://codecanyon.net/user/intermatics">here</a>. Thank you!</p>
+			</div>
+		</div><!-- end div .borderTop -->
+		
+		<hr>
+		
+		<h2 id="toc" class="alt">Table of Contents</h2>
+		<ol class="number">
+			<li><a href="#installNodejs">Installing Node.js</a></li>
+			<li><a href="#installIonicCordova">Installing Ionic and Cordova</a></li>
+			<li><a href="#installingPackages">Installing packages</a></li>
+			<li><a href="#runOnBrowser">Running on browser</a></li>
+			<li><a href="#runOnAndroid">Running on android</a></li>
+			<li><a href="#runOnIOS">Running on ios</a></li>
+			<li><a href="#folderStructure">Folder Structure</a></li>
+            <li><a href="#apiUrl">Pointing to your API</a></li>
+		</ol>
+
+		<hr>
+		<h3 id="installNodejs"><strong>1) Install Node.js</strong> - <a href="#toc">top</a></h3>
+
+		<p>
+			If you dont have Node.js already installed on your computer, then you need to install it first.
+			To verify whether Node.js is already installed on your computer please run this command.
+		</p> 
+<pre>node -v
+</pre>
+
+		<p>
+			If this returns you a version number then that means node.js is installed on your computer. e.g) In my case it is returning "v10.16.0"
+			If you get any error, then we need to install Node.js. 
+		</p>
+
+		<p>
+			Installing Node.js is very easy.
+			<a target="_blank" href="https://nodejs.org">Visit Node.js website</a> You will see a download option for your Windows or MacOS.
+			Download the one where it says "Recommended for Most Users" and simply run the installer. When the installation is finished you should be able to run this command.
+		</p>
+
+<pre>node -v
+</pre>
+
+		<hr>
+
+		<h3 id="installIonicCordova"><strong>2) Install Ionic and Cordova</strong> - <a href="#toc">top</a></h3>
+
+		<p>
+			If you dont have already installed Ionic or Cordova then you need to install them first. This command will install cordova and ionic both globally, so you can access them from anywhere in your machine.
+		</p> 
+<pre>npm install -g cordova ionic
+</pre>
+
+		<p>
+			Installation could take some time depending on your internet connection.
+		</p>
+
+		<hr>
+
+		<h3 id="installingPackages"><strong>3) Installing packages</strong> - <a href="#toc">top</a></h3>
+
+		<p>
+			The Zip file you downloaded from "codecanyon" will contain a folder called "source_code". Now go into that directory and run this command from that directory.
+		</p> 
+<pre>npm install
+</pre>
+
+		<p>
+			This will install all the packages from package.json file. Wait for installation to get finished.
+		</p>
+
+		<hr>
+
+		<h3 id="runOnBrowser"><strong>4) Running on Browser</strong> - <a href="#toc">top</a></h3>
+
+		<p>
+			To run your template on your browser you need to run this command from your "source_code" directory.
+		</p> 
+<pre>ionic serve
+</pre>
+
+		<p>
+			This will launch a browser and run the template.
+		</p>
+
+		<hr>
+
+		<h3 id="runOnAndroid"><strong>5) Running on Android</strong> - <a href="#toc">top</a></h3>
+
+		<p>
+			If you have Android SDK setup on your machine, Then you can run the ionic app template on your android. You need to run this command from your "source_code" directory.
+		</p> 
+<pre>ionic cordova build android
+</pre>
+
+		<p>
+			This will create android build. If build is created successfully, then you can run this command.
+		</p>
+
+<pre>ionic cordova run android
+</pre>
+
+		<p>
+			This will install it as APK and run on your device.
+		</p>
+
+		<hr>
+
+		<h3 id="runOnIOS"><strong>6) Running on IOS</strong> - <a href="#toc">top</a></h3>
+
+		<p>
+			<span style="color: red;">NOTE:</span> Apple has restriction, thats why you will need a MacOS to run IOS Apps on your Iphone. You can't do this on windows.
+		</p>
+
+		<p>
+			If you have MacOS and XCode is setup on your MacOS then you can run the ionic app template on your ios. You need to run this command from your "source_code" directory.
+		</p> 
+<pre>ionic cordova build ios
+</pre>
+		
+		<p>
+			This will create ios build. If build is created successfully, then you can run this command to run on your iphone.
+		</p>
+
+<pre>ionic cordova run ios
+</pre>
+
+		<p>
+			<span style="color: red;">NOTE:</span> Some times your build may get failed. It could be due to different reasons, either you have code signing issues, or you may have not choosed the `Team` in xcode.
+		</p>
+
+		<p>
+			If you get errors, then you can manually open project by going to "source_code/platforms/ios" and run the project in Xcode. and Xcode will show you what error you are getting.
+			You can also run in on simulator.
+		</p>
+		
+		<hr>
+
+		<h3 id="folderStructure"><strong>7) Folder Structure</strong> - <a href="#toc">top</a></h3>
+
+		<p>
+			The source code is available in this directory
+		</p> 
+<pre>source_code/src
+</pre>
+
+		<p>
+			Global app level code is available in this directory.
+		</p> 
+
+<pre>source_code/src/app
+</pre>
+
+		<p>
+			and
+		</p> 
+
+<pre>source_code/src/theme
+</pre>
+		
+		<p>
+			All the page level code is available in this directory
+		</p>
+
+<pre>source_code/src/pages
+</pre>
+
+		<p>
+			Inside "source_code/src/pages" directory each page has its own folder and that folder contains all the files related to that page.
+		</p>
+		
+		<hr>
+
+        <h3 id="apiUrl"><strong>8) Pointing to your API</strong> - <a href="#toc">top</a></h3>
+
+        <p>
+            This app was built to work with the TrainEasy web app API. You will need to purchase and install a copy of TrainEasy before you can use this app. You can buy it here: <a href="https://codecanyon.net/item/traineasy-training-management-registration-system/19457888">https://codecanyon.net/item/traineasy-training-management-registration-system/19457888</a>
+            .<br/>
+            Once your TrainEasy web app is installed and working, you will need to update the api in your Ionic app to work with your installed application. To do so, please open the file located at src/app/config.ts . You should see code as below:
+        </p>
+<pre>export const CONFIG = {
+   apiUrl:'https://demov1.traineasy.net/api/v1'
+}
+
+</pre>
+
+        <p>
+            You need to change text <i>https://demov1.traineasy.net</i> to point to your server. Ensure you do not remove the quotes (') or the api string (/api/v1) . Also ensure there are no spaces after you change the code
+        </p>
+
+        <hr>
+		
+		<p>Once again, thank you for purchasing this item. As I said at the beginning, we will be glad to help you if you have any questions relating to this item.</p>
+		
+		<p class="append-bottom alt large"><strong>Intermatics</strong></p>
+		<p><a href="#toc">Go To Table of Contents</a></p>
+		
+		<hr class="space">
+	</div><!-- end div .container -->
+</body>
+</html>

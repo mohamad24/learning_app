@@ -1,0 +1,144 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <form #profileForm="ngForm"   (ngSubmit)="onSave(profileForm)">
+        <ion-grid >
+            <ion-row justify-content-center>
+              <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+                 <div >
+                   <div style="position:relative; text-align: center; margin-bottom: 20px; min-height: 150px">
+                    <ion-avatar (click)="onImageClick()" >
+                        <img *ngIf="student?.picture" class="image" src="{{ basePath+'/'+student?.picture }}">
+                        <img *ngIf="!student?.picture" class="image" src="assets/icon/user.jpg">
+                  </ion-avatar>
+                  
+                  <button type="button"  (click)="onImageClick()"  style="position:absolute; bottom:10px;right:20px"  ion-button icon-only  large round>
+                      <ion-icon name="camera"></ion-icon>
+                    </button>
+                    <ion-spinner style="font-size:20px" *ngIf="showLoading"></ion-spinner>
+                </div>
+                  
+
+
+                    <ion-item>
+                        <ion-input [(ngModel)]="student.first_name"  required  type="text" name="first_name" #first_name="ngModel" placeholder="First name"></ion-input>
+                        <div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched || profileForm.submitted)"
+                        class="alert alert-danger">
+                    
+                      <div class="error" *ngIf="first_name.errors.required">
+                        *
+                      </div>
+                    
+                    
+                    </div>
+
+                      </ion-item>
+
+                      <ion-item>
+                          <ion-input [(ngModel)]="student.last_name"  required  type="text" name="last_name" #last_name="ngModel" placeholder="Last name"></ion-input>
+                          <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched || profileForm.submitted)"
+                          class="alert alert-danger">
+                      
+                        <div class="error" *ngIf="last_name.errors.required">
+                         *
+                        </div>
+                      
+                      
+                      </div>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-input [(ngModel)]="student.mobile_number"  required type="tel" name="mobile_number"  #mobile_number="ngModel" placeholder="Telephone No"></ion-input>
+                          
+                            <div *ngIf="mobile_number.invalid && (mobile_number.dirty || mobile_number.touched || profileForm.submitted)"
+                            class="alert alert-danger">
+                        
+                          <div class="error" *ngIf="mobile_number.errors.required">
+                           *
+                          </div>
+                        
+                        
+                        </div>
+
+                          </ion-item>
+
+                         
+
+                          <ion-item *ngFor="let field of fields">
+                            
+                            <ion-input [(ngModel)]="student['custom_'+field.registration_field_id]"  #{{field.registration_field_id}}="ngModel" *ngIf="field.type=='text'" type="text" [required]="field.required==1" [name]="'custom_'+field.registration_field_id" [placeholder]="field.name"></ion-input>
+                            
+                            <ion-textarea  [(ngModel)]="student['custom_'+field.registration_field_id]"  #{{field.registration_field_id}}="ngModel"  *ngIf="field.type=='textarea'"  [required]="field.required==1" [name]="'custom_'+field.registration_field_id" [placeholder]="field.name"></ion-textarea>   
+
+                            <ion-label  *ngIf="field.type=='select' || field.type=='radio'" >{{field.name}}</ion-label>
+                            <ion-select  [(ngModel)]="student['custom_'+field.registration_field_id]"  #{{field.registration_field_id}}="ngModel"   *ngIf="field.type=='select' || field.type=='radio'"  [name]="'custom_'+field.registration_field_id"    [placeholder]="field.placeholder">
+                              <ion-option *ngFor="let option of field.options" >{{option}}</ion-option>
+                            </ion-select>
+                    
+                            <ion-label  *ngIf="field.type=='file'">{{field.name}}</ion-label>
+                           
+                            <ion-input  #{{field.registration_field_id}}="ngModel"  [(ngModel)]="student['custom_'+field.registration_field_id]"  *ngIf="field.type=='file'" type="file" [required]="field.required==1" [name]="'custom_'+field.registration_field_id" [placeholder]="field.name"></ion-input>
+                            
+                           
+                                <ion-label   *ngIf="field.type=='checkbox'"  >{{field.name}}</ion-label>
+                                <ion-checkbox   #{{field.registration_field_id}}="ngModel"  [(ngModel)]="student['custom_'+field.registration_field_id]"  *ngIf="field.type=='checkbox'"   right   [name]="'custom_'+field.registration_field_id" ></ion-checkbox>
+                                
+
+
+                                <div *ngIf="field.required==1 && field.type !='checkbox'  && profileForm.submitted"
+                                class="alert alert-danger">
+                            
+                              <div class="error" >
+                                *
+                              </div>
+                            
+                            
+                            </div>
+
+                          </ion-item> 
+
+                  <ion-item>
+                    <ion-input  [(ngModel)]="student.email" name="email" #email="ngModel"  required   type="email" placeholder="Email"></ion-input>
+                    <div *ngIf="email.invalid && (email.dirty || email.touched || profileForm.submitted)"
+                    class="alert alert-danger">
+                
+                  <div class="error" *ngIf="email.errors.required">
+                    *
+                  </div>
+                
+                  <div class="error" *ngIf="email.errors.email">
+                      invalid email
+                    </div>
+                </div>
+                  </ion-item>
+          
+                 
+                </div>
+          
+                
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+
+</ion-content>
+
+<ion-footer no-border >
+    <ion-toolbar transparent>
+      <button (click)="onSave(profileForm)"  ion-button full large text-uppercase  >Save</button>
+    </ion-toolbar>
+  </ion-footer>

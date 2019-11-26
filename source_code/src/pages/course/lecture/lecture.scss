@@ -1,0 +1,41 @@
+page-lecture {
+
+    .videobox{
+        position: relative;
+    }
+
+    .playBtn {
+        position: absolute;
+        width: 156px;
+        height: 96px;
+        left: 50%;
+        top: 50%;
+        margin-left: -78px; /*half of the width */
+        margin-top: -48px; /*half of the height */
+    }
+
+    .swiper-slide {
+        overflow-y: scroll;
+        display: block;
+        }
+        
+        ion-segment {
+            display: block;
+            white-space: nowrap;
+            font-size: 0;
+            overflow: auto;
+        
+            &::-webkit-scrollbar {
+                width: 0;
+                height: 0;
+                display: none;
+            }
+        
+            ion-segment-button.segment-button {
+                display: inline-block;
+                min-width: 100px;
+                width: auto;
+            }
+        }
+        
+}

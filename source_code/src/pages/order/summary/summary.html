@@ -1,0 +1,46 @@
+<!--
+  Generated template for the SummaryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Your Order</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding >
+<ng-container  *ngIf="invoice">
+    <ion-item-group>
+        <ion-item-divider color="light">Courses</ion-item-divider>
+        <ion-item *ngFor="let course  of invoice.sessions">{{ course.session_name }} - <span *ngIf="currency"><ng-container *ngIf="course.amount > 0 && course.payment_required==1"  ><span [innerHTML]="(course.amount * currency.exchange_rate) | currency : currency.currency_symbol" ></span></ng-container> 
+          <ng-container *ngIf="course.amount == 0 || course.payment_required==0" >Free</ng-container></span>  </ion-item>
+        
+      </ion-item-group>
+      <ion-item-group >
+          <ion-item-divider color="light">Payment Method</ion-item-divider>
+          <ion-item >{{ invoice.payment_method.method_label }} </ion-item>
+          
+        </ion-item-group>
+        <ion-item-group *ngIf="invoice.has_discount" >
+            <ion-item-divider color="light">Discount</ion-item-divider>
+            <ion-item *ngIf="invoice.discount_type=='P'" >{{ invoice.discount_applied }}%</ion-item>
+            <ion-item *ngIf="invoice.discount_type=='F'" [innerHTML]="invoice.discount_applied | currency : invoice.currency.currency_symbol" ></ion-item>
+          </ion-item-group>
+          <ion-item-group  >
+              <ion-item-divider color="light">Total</ion-item-divider>
+              <ion-item ><span [innerHTML]="invoice.invoice.amount  | currency : invoice.currency.currency_symbol"></span></ion-item>
+            </ion-item-group>
+</ng-container>
+</ion-content>
+
+
+<ion-footer no-border>
+    <ion-toolbar transparent>
+      <button (click)="payment()" ion-button full large text-uppercase  >Pay Now</button>
+    </ion-toolbar>
+  </ion-footer>

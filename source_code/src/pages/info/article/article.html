@@ -1,0 +1,13 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>{{article?.article_name}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-spinner *ngIf="showLoading"></ion-spinner>
+  <p [innerHTML]="article?.article_content" ></p>
+</ion-content>

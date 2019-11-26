@@ -1,0 +1,102 @@
+<!--
+  Generated template for the QuestionsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Instructor Chat</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+    <ion-card *ngIf="!networkPresent">
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                  <ion-col>
+                   
+                      <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                     
+                  </ion-col>
+                  <ion-col size="10">Network unavailable! Please check your connection.</ion-col>
+                  
+                </ion-row>
+              </ion-grid>
+            
+        </ion-card-content>
+      </ion-card>
+    
+      <ion-card *ngIf="networkPresent && showRetry">
+          <ion-card-content>
+              <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                     
+                        <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                       
+                    </ion-col>
+                    <ion-col size="8">Network Error. Please try again</ion-col>
+                    <ion-col>
+                      <button ion-button (click)="reloadPosts(1)"><ion-icon name="refresh"></ion-icon>
+                      Try Again
+                      </button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              
+          </ion-card-content>
+        </ion-card>
+    
+        <ion-spinner *ngIf="showLoading"></ion-spinner>
+        <p  *ngIf="(!posts && !showLoading) || posts?.length==0" >There are no discussions yet. Click the 'Add' button below to start a new discussion</p>
+    
+        <ng-container *ngIf="posts && posts?.length>0">
+  
+
+
+            <ion-list   >
+           
+                <ion-list-header>
+                    Your previous discussions
+                  </ion-list-header>
+
+                  <ion-item-sliding *ngFor="let discussion of posts">
+                <ion-item  (click)="goToPost(discussion)" text-wrap >
+                    
+                    <h2>{{ discussion.subject }}</h2>
+                    <p><small>on {{ discussion.created_on | makeint | date }}</small> </p>
+                    <p style="text-align:right">{{ discussion.replies }} replies</p>
+               
+                    
+                  </ion-item>
+                  <ion-item-options side="right" >
+                      <button ion-button color="danger" (click)="showConfirm(discussion)" >
+                        <ion-icon name="trash"></ion-icon>
+                        Delete
+                      </button>
+                     
+                    </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
+        
+    
+        </ng-container>
+    
+    
+        <ion-infinite-scroll (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+
+          <ion-fab bottom right>
+              <button (click)="newDiscussion()" ion-fab color="primary" icon-only><ion-icon name="add-circle"></ion-icon></button>
+            </ion-fab>
+
+</ion-content>
+

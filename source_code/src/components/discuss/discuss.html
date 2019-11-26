@@ -1,0 +1,88 @@
+
+  <ion-card *ngIf="!networkPresent">
+      <ion-card-content>
+          <ion-grid>
+              <ion-row>
+                <ion-col>
+                 
+                    <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                   
+                </ion-col>
+                <ion-col size="10">Network unavailable! Please check your connection.</ion-col>
+                
+              </ion-row>
+            </ion-grid>
+          
+      </ion-card-content>
+    </ion-card>
+  
+    <ion-card *ngIf="networkPresent && showRetry">
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                  <ion-col>
+                   
+                      <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                     
+                  </ion-col>
+                  <ion-col size="8">Network Error. Please try again</ion-col>
+                  <ion-col>
+                    <button ion-button (click)="reloadPosts(1)"><ion-icon name="refresh"></ion-icon>
+                    Try Again
+                    </button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            
+        </ion-card-content>
+      </ion-card>
+  
+      <ion-spinner *ngIf="showLoading"></ion-spinner>
+      <p  *ngIf="(!posts && !showLoading) || posts?.length==0" >There are no topics yet. Click the 'Add' button below to start a new topic</p>
+  
+      <ng-container *ngIf="posts && posts?.length>0">
+
+
+
+          <ion-list   >
+         
+              <ion-list-header>
+                  Select a topic
+                </ion-list-header>
+
+                <ion-item-sliding *ngFor="let topic of posts">
+              <ion-item  (click)="goToPost(topic)" text-wrap >
+                  <ion-thumbnail item-start>
+                      <img  useImg  *ngIf="topic.owner.picture != ''"  src="{{ basePath+'/'+topic.owner.picture }}" />
+                      <img *ngIf="topic.owner.picture == ''"  width="100%"  src="assets/icon/user.png" />
+                    
+                  </ion-thumbnail>
+                  <h2>{{ topic.topic_title }}</h2>
+                  <p><small>by {{topic.owner.first_name}} on {{ topic.created_on | makeint | date }}</small> </p>
+                  <p style="text-align:right">{{ topic.total_posts-1 }} replies</p>
+             
+                  
+                </ion-item>
+                <ion-item-options side="right" *ngIf="topic.can_delete">
+                    <button ion-button color="danger" (click)="showConfirm(topic)" >
+                      <ion-icon name="trash"></ion-icon>
+                      Delete
+                    </button>
+                   
+                  </ion-item-options>
+              </ion-item-sliding>
+            </ion-list>
+      
+  
+      </ng-container>
+  
+  
+      <ion-infinite-scroll (ionInfinite)="loadData($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+
+        <ion-fab bottom right>
+            <button (click)="newTopic()" ion-fab color="primary" icon-only><ion-icon name="add-circle"></ion-icon></button>
+          </ion-fab>
+
+

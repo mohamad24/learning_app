@@ -1,0 +1,141 @@
+<ion-header>
+
+  <ion-toolbar color="primary" *ngIf="params">
+      <ion-buttons left  *ngIf="!isOn && params?.group != ''" >
+          <button ion-button icon-only  (click)="loadCategory('')" >
+            <ion-icon name="arrow-round-back"></ion-icon>
+          </button>
+
+        </ion-buttons>
+
+        <ion-searchbar [(ngModel)]="params.filter" animated (search)="search()"  *ngIf="isOn" ></ion-searchbar>
+   
+        <ion-buttons right>
+   
+            <button ion-button icon-only  (click)="toggleDetails()" >
+              <ion-icon name="search" *ngIf="!isOn" ></ion-icon>
+              <ion-icon   name="close-circle" *ngIf="isOn" ></ion-icon>
+            </button>
+          </ion-buttons>
+          <ion-buttons right   *ngIf="!isOn" >
+              <button ion-button icon-only (click)="toggleCategory()" >
+                  <ion-icon name="list"></ion-icon>
+              </button> 
+            </ion-buttons>
+
+
+          <ion-buttons right   *ngIf="!isOn" > 
+            <button ion-button icon-only (click)="presentActionSheet()" >
+              <ion-icon  name="funnel"></ion-icon>
+            </button> 
+          </ion-buttons>
+
+
+          <ion-buttons right   *ngIf="!isOn" > 
+            <button ion-button (click)="presentPopover($event)">
+              <ion-icon name="arrow-dropdown"></ion-icon>
+              {{ currency?.currency_code }}  (<span [innerHTML]="currency?.currency_symbol" ></span>)
+            </button> 
+          </ion-buttons>
+
+
+
+        <ion-title  *ngIf="!isOn" ><ng-container *ngIf="params?.group == ''">All Courses</ng-container><ng-container *ngIf="params?.group != ''">{{ catLib[params?.group] }}</ng-container></ion-title>
+ 
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+    <ion-card *ngIf="!networkPresent">
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                  <ion-col>
+                   
+                      <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                     
+                  </ion-col>
+                  <ion-col size="10">Network unavailable! Please check your connection.</ion-col>
+                  
+                </ion-row>
+              </ion-grid>
+            
+        </ion-card-content>
+      </ion-card>
+ 
+      <ion-card *ngIf="networkPresent && showRetry">
+          <ion-card-content>
+              <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                     
+                        <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                       
+                    </ion-col>
+                    <ion-col size="8">Network Error. Please try again</ion-col>
+                    <ion-col>
+                      <button ion-button (click)="reloadCourses(1)"><ion-icon name="refresh"></ion-icon>
+                      Try Again
+                      </button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              
+          </ion-card-content>
+        </ion-card>
+   
+
+  <ion-list nolines *ngIf="params?.sort != '' || params?.type != ''">
+    <ion-item *ngIf="params?.sort != ''"><strong>Sort By:&nbsp; </strong> {{ sortLib[params?.sort] }}</ion-item>
+    <ion-item *ngIf="params?.type != ''"><strong>Type:&nbsp; </strong> {{ sortLib[params?.type] }}</ion-item> 
+  </ion-list>
+
+  <ion-card *ngIf="isCategory" >
+      <ion-item (click)="loadCategory('')">All Courses</ion-item>
+      <ion-item *ngFor="let category of settings?.categories" (click)="loadCategory(category.session_category_id)"  >        
+        <ion-label>{{ category.category_name }}</ion-label>
+      </ion-item> 
+  </ion-card>
+
+  <ng-container  >
+  <ion-spinner *ngIf="showLoading"></ion-spinner>
+    <p  *ngIf="!courses && !showLoading" >There are no Courses to display</p>
+    <ion-list *ngIf="courses"  >
+           
+
+        <ion-item  *ngFor="let course of courses" (click)="loadCourse(course.session_id)" text-wrap >
+            <ion-thumbnail item-start>
+                <img  useImg fallbackUrl="assets/icon/course.png" *ngIf="course.picture != ''"  src="{{ settings?.base_path+'/'+course.picture }}" />
+                <img *ngIf="course.picture == ''"  width="100%"  src="assets/icon/course.png" />
+              
+            </ion-thumbnail>
+            <h2>{{course.session_name}}</h2>
+            <h3 class="course_type">{{ (course.session_type=='c')? 'Online Course':'Training Session' }}</h3>
+            <p> <ng-container *ngIf="course.amount > 0 && course.payment_required==1" > <span [innerHTML]="(course.amount * currency.exchange_rate) | currency : currency.currency_symbol" ></span></ng-container> 
+              <ng-container *ngIf="course.amount == 0 || course.payment_required==0" >Free</ng-container></p>
+       
+            
+          </ion-item>
+
+
+
+
+
+
+
+
+
+      </ion-list>
+
+
+  <ion-infinite-scroll (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ng-container>
+
+
+</ion-content>

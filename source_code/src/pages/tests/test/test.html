@@ -1,0 +1,116 @@
+<!--
+  Generated template for the TestPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Test: {{ test?.name }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-spinner *ngIf="showLoading"></ion-spinner>
+    <ion-card *ngIf="!start && test">
+      <ion-card-header>{{test?.name}}</ion-card-header>
+      <ion-card-content>
+         <p [innerHTML]="test?.description" ></p>
+          <ion-grid>
+                <ion-row>
+                    <ion-col  size="6"><strong>Questions:</strong></ion-col>
+                    <ion-col  size="6">{{ test?.total_questions }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col  size="6"><strong>Time Allowed:</strong></ion-col>
+                    <ion-col  size="6" *ngIf="test?.minutes!=''">{{ test?.minutes }} minutes</ion-col>
+                    <ion-col  size="6" *ngIf="test?.minutes == ''">Unlimited</ion-col>
+                </ion-row>
+                <ion-row *ngIf="test?.passmark > 0">
+                    <ion-col  size="6"><strong>Passmark:</strong></ion-col>  
+                    <ion-col  size="6" >{{test?.passmark}}%</ion-col>
+                </ion-row>
+          </ion-grid>
+      </ion-card-content>
+      
+    </ion-card>
+  
+<div *ngIf="start && !result" style="padding-top:5px; padding-bottom:5px" >
+
+    <ion-slides>
+        <ion-slide *ngFor="let question of questions; let i = index">
+          <ion-card>
+              <ion-card-header>Question {{ i+1 }} of {{ test?.total_questions }}</ion-card-header>
+              <ion-card-content>
+                <p [innerHTML]="question.question.question" style="text-align:left"></p>
+
+                <ion-list radio-group [(ngModel)]="answers['question_'+question.question.test_question_id]">
+                  <ion-list-header>Options</ion-list-header>
+                    <ion-item *ngFor="let option of question.options"  text-wrap  >
+                      <ion-radio item-start [value]="option.test_option_id" ></ion-radio>
+                      <ion-label>{{option.option}}</ion-label>
+                      
+                    </ion-item>
+                     
+                  </ion-list>
+                
+              </ion-card-content>
+
+          </ion-card>
+        </ion-slide>
+          
+      </ion-slides>
+    
+</div>   
+  
+    <ion-card *ngIf="start && result">
+        <ion-card-header>Test Complete!</ion-card-header>
+        <ion-card-content >
+          <p>You have successfully completed this test.</p>
+          <p *ngIf="test?.show_result==1">You scored {{ result.score }}%</p>
+          <p *ngIf="test?.show_result==1">Grade: {{ (result.score >= test?.passmark)? 'Passed':'Failed' }}</p>
+          <br/>
+          <ng-container *ngIf="result.score >= test?.passmark && classId">
+              <p>You may now continue the course</p>
+              <button (click)="continueCourse()" ion-button full large text-uppercase >Continue Course</button>
+          </ng-container>      
+        </ion-card-content>
+    </ion-card>
+
+     
+
+</ion-content>
+
+<ion-footer no-border *ngIf="start && !userCanLeave"   >
+    <ion-toolbar transparent> 
+        <ion-buttons left *ngIf="!isBeginning()"  >
+            <button solid icon-only ion-button (click)="prev()" >
+                <ion-icon name="arrow-round-back"></ion-icon>&nbsp; Previous &nbsp; 
+            </button>
+  
+          </ion-buttons>
+          <ion-title *ngIf="countdown" style="text-align:center">{{countdown}}</ion-title>
+          <ion-buttons right  *ngIf="!isEnd()"    >
+              <button ion-button  solid icon-only   (click)="next()"  >
+                  &nbsp; Next &nbsp;<ion-icon name="arrow-round-forward"></ion-icon>
+              </button>
+    
+            </ion-buttons>
+
+            <ion-buttons right  *ngIf="isEnd()"    >
+                <button color="secondary" ion-button solid (click)="submitTest()"  >
+                    <ion-icon name="checkmark-circle"></ion-icon>&nbsp;&nbsp; Complete Test
+                </button>
+      
+              </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+
+  <ion-footer no-border *ngIf="!start">
+      <ion-toolbar transparent>
+        <button (click)="startTest()"  ion-button full large text-uppercase  >Start Test</button>
+      </ion-toolbar>
+    </ion-footer>

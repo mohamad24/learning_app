@@ -1,0 +1,218 @@
+<!--
+  Generated template for the ClassPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header  [scrollHide]="headerScrollConfig" [scrollContent]="pageContent" >
+
+  <ion-navbar color="primary">
+      <ion-buttons right> 
+          <button ion-button menuToggle >
+              <ion-icon name="menu"></ion-icon>
+          </button>
+      </ion-buttons>
+    <ion-title>{{lectureData?.lecture_name}}</ion-title>
+  </ion-navbar>
+
+  <ion-toolbar no-border-top  color="primary">
+      <ion-segment [(ngModel)]="option" color="light" >
+        <ion-segment-button value="lecture">
+         Lecture
+        </ion-segment-button>
+        <ion-segment-button value="contents" >
+          Class Index
+        </ion-segment-button>
+        <ion-segment-button value="resources">
+          Resources
+        </ion-segment-button> 
+        <ion-segment-button value="discuss">
+          Discuss
+        </ion-segment-button> 
+      </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding #pageContent fullscreen >
+
+   
+
+    <ion-spinner *ngIf="showLoading"></ion-spinner>
+    <div  [ngSwitch]="option">
+
+ 
+<div *ngSwitchCase="'lecture'">
+            <ion-slides (ionSlideDidChange)="slideChanged()" >
+                <ion-slide *ngFor="let page of lectureData?.pages" >
+                  
+  <ion-card-header> 
+                    <ion-icon  style="float: left;"  *ngIf="page.type=='v'" name="videocam" item-left></ion-icon> 
+                    <ion-icon   style="float: left;" *ngIf="page.type=='t'" name="book" item-left></ion-icon>
+                    <ion-icon  style="float: left;"  *ngIf="page.type=='l'" name="videocam" item-left></ion-icon> 
+                    <ion-icon  style="float: left;"  *ngIf="page.type=='q'" name="help" item-left></ion-icon>  
+                    <ion-icon  style="float: left;"  *ngIf="page.type=='i'" name="images" item-left></ion-icon> 
+                    <ion-icon  style="float: left;"  *ngIf="page.type=='c'" name="code" item-left></ion-icon> 
+                    <span>{{ page.title }}</span>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <div *ngIf="page.type=='t'" [innerHTML]="page.content" style="text-align:left"></div>
+      <div *ngIf="page.type=='c'"  style="text-align:left"  [innerHTML]="page.content" ></div>
+      <div *ngIf="page.type=='v'"  >
+          <iframe width="100%" height="315" [src]="safeUrl(page.content)" frameborder="0" allowfullscreen></iframe>
+    
+      </div>
+      <div  *ngIf="page.type=='i'"><img  *ngIf="page.content != ''"  src="{{ basePath+'/'+page.content }}" /></div>
+      <div *ngIf="page.type=='q'" style="height:400px">
+            <div class="quizbox " id="quiz-{{ page.lecture_page_id }}"> 
+
+                    <div class="quizArea">
+                        <div class="quizHeader">
+                            <!-- where the quiz main copy goes -->
+
+                             
+                            <button ion-button class="startQuiz">Get Started!</button>
+                        </div>
+
+                        <!-- where the quiz gets built -->
+                    </div>
+
+                    <div class="quizResults">
+                        <h3 class="quizScore">You Scored: <span><!-- where the quiz score goes --></span></h3>
+
+                        <h3 class="quizLevel"><strong>Ranking:</strong> <span><!-- where the quiz ranking level goes --></span></h3>
+
+                        <div class="quizResultsCopy">
+                            <!-- where the quiz result copy goes -->
+                        </div>
+                    </div>
+                </div>
+                
+      </div>
+
+      <div *ngIf="page.type=='l'" >
+        <div style="min-height: 150px" *ngIf="page.content.video_id" class="videobox" (click)="playVideo(page.content.video_id)" > 
+            <img style="max-width: width 100px;" [src]="basePath+'/'+page.poster" />
+            <img src="assets/icon/playbutton.png" alt="play" class="playBtn">
+        </div>
+        
+<ion-list>
+        <ion-item>
+                <ion-label>Video Quality</ion-label>
+                <ion-select (ngModelChange)="qualityChanged($event)" [ngModel]="quality" name="quality">
+                  <ion-option value="240">240p</ion-option>
+                  <ion-option value="360">360p</ion-option>
+                  <ion-option value="480">480p</ion-option>
+                  <ion-option value="720">720p</ion-option>
+                </ion-select>
+              </ion-item>
+</ion-list>
+
+        <ion-list *ngIf="page.content.description" >
+            <ion-list-header>Description</ion-list-header>
+            <ion-item [innerHTML]="page.content.description">
+
+            </ion-item>
+        </ion-list>
+
+      </div>
+
+
+
+    </ion-card-content>
+
+
+    <ion-card  *ngIf="page.audio_code" >
+        <ion-card-header><ion-icon  style="float: left;" name="mic"></ion-icon>
+        Audio</ion-card-header>
+        <ion-card-content>
+            <iframe width="100%" height="215" [src]="safeUrl(page.audio_code)" frameborder="0" allowfullscreen></iframe> 
+        </ion-card-content>
+    </ion-card>
+
+                </ion-slide> 
+              </ion-slides>
+              <div style="height:100px"></div>
+</div>
+ 
+
+          <ng-container *ngSwitchCase="'contents'"> 
+
+            <ion-list *ngFor="let lecture of lectureData?.lectures" style="margin-bottom:30px" (click)="openLecture(lecture.lecture_id)" >
+                <ion-list-header> 
+                    <h2 >{{  lecture.lecture_title }}</h2>
+                </ion-list-header>
+                <ion-item *ngFor="let content of lecture.contents">{{ content.title }}
+                    <ion-icon *ngIf="content.type=='v'" name="videocam" item-left></ion-icon> 
+                    <ion-icon *ngIf="content.type=='t'" name="book" item-left></ion-icon>
+                    <ion-icon *ngIf="content.type=='l'" name="videocam" item-left></ion-icon> 
+                    <ion-icon *ngIf="content.type=='q'" name="help" item-left></ion-icon>  
+                    <ion-icon *ngIf="content.type=='i'" name="images" item-left></ion-icon> 
+                    <ion-icon *ngIf="content.type=='c'" name="code" item-left></ion-icon> 
+
+                </ion-item>
+
+            </ion-list>
+            
+          </ng-container>
+  
+  
+          <ng-container *ngSwitchCase="'resources'"> 
+              <ion-card *ngIf="showProgress">
+                  <ion-card-header>
+                    Download Progress
+                  </ion-card-header>
+                  <ion-card-content>
+                      <progress-bar [progress]="progress"></progress-bar>
+                  </ion-card-content>
+                </ion-card>
+              <ion-card *ngFor="let file of lectureData?.downloads">
+                  <ion-card-header class="cardheader">
+                    {{ file.path.substring(file.path.lastIndexOf('/')+1) }}
+                   </ion-card-header> 
+                
+               
+                   <ion-row class="cardfooter">
+                     <ion-col>
+                           <button (click)="downloadFile(file.lesson_file_id,file.path.substring(file.path.lastIndexOf('/')+1))" ion-button  primary >Download</button>
+  
+                     </ion-col>
+                   </ion-row>
+                 </ion-card>
+  
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'discuss'">
+            <discuss [id]="course?.details.session_id" ></discuss>
+        </ng-container>
+
+          </div>
+</ion-content>
+<ng-container  [ngSwitch]="option">
+<ion-footer no-border *ngSwitchCase="'lecture'"  >
+    <ion-toolbar transparent> 
+        <ion-buttons left *ngIf="!isBeginning()"  >
+            <button solid icon-only ion-button (click)="prev()" >
+                <ion-icon name="arrow-round-back"></ion-icon>&nbsp; Previous &nbsp; 
+            </button>
+  
+          </ion-buttons>
+
+          <ion-buttons right  *ngIf="!isEnd()"    >
+              <button ion-button  solid icon-only   (click)="next()"  >
+                  &nbsp; Next &nbsp;<ion-icon name="arrow-round-forward"></ion-icon>
+              </button>
+    
+            </ion-buttons>
+
+            <ion-buttons right  *ngIf="isEnd()"    >
+                <button color="secondary" ion-button solid (click)="save()"  >
+                    <ion-icon name="checkmark-circle"></ion-icon>&nbsp;&nbsp; Complete Lecture
+                </button>
+      
+              </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+
+</ng-container>

@@ -1,0 +1,87 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Student Forum</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+    <ion-card *ngIf="!networkPresent">
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                  <ion-col>
+                   
+                      <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                     
+                  </ion-col>
+                  <ion-col size="10">Network unavailable! Please check your connection.</ion-col>
+                  
+                </ion-row>
+              </ion-grid>
+            
+        </ion-card-content>
+      </ion-card>
+    
+      <ion-card *ngIf="networkPresent && showRetry">
+          <ion-card-content>
+              <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                     
+                        <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                       
+                    </ion-col>
+                    <ion-col size="8">Network Error. Please try again</ion-col>
+                    <ion-col>
+                      <button ion-button (click)="reloadPosts(1)"><ion-icon name="refresh"></ion-icon>
+                      Try Again
+                      </button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              
+          </ion-card-content>
+        </ion-card>
+    
+        <ion-spinner *ngIf="showLoading"></ion-spinner>
+        <p  *ngIf="!posts && !showLoading" >You have no enrolled courses</p>
+    
+        <ng-container *ngIf="posts">
+  
+
+
+            <ion-list   >
+           
+                <ion-list-header>
+                    Select a course
+                  </ion-list-header>
+                <ion-item  *ngFor="let course of posts" (click)="goToPost(course.session_id,course)" text-wrap >
+                    <ion-thumbnail item-start>
+                        <img useImg *ngIf="course.picture != ''"  src="{{ basePath+'/'+course.picture }}" />
+                        <img *ngIf="course.picture == ''"  width="100%"  src="assets/icon/course.png" />
+                      
+                    </ion-thumbnail>
+                    <h2>{{course.session_name}}</h2>
+                    <p>{{ course.total_topics }} topics</p>
+               
+                    
+                  </ion-item>
+         
+              </ion-list>
+        
+    
+        </ng-container>
+    
+    
+        <ion-infinite-scroll (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+
+
+
+</ion-content>

@@ -1,0 +1,110 @@
+<!--
+  Generated template for the ClassPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+      <ion-buttons right> 
+          <button ion-button menuToggle >
+              <ion-icon name="menu"></ion-icon>
+          </button>
+      </ion-buttons>
+    <ion-title>{{classData?.class_name}}</ion-title>
+  </ion-navbar>
+
+  <ion-toolbar no-border-top  color="primary">
+      <ion-segment [(ngModel)]="option" color="light" >
+        <ion-segment-button value="intro">
+         Intro
+        </ion-segment-button>
+        <ion-segment-button value="contents" >
+          Contents
+        </ion-segment-button>
+        <ion-segment-button value="resources">
+          Resources
+        </ion-segment-button> 
+        <ion-segment-button value="discuss">
+          Discuss
+        </ion-segment-button> 
+      </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-spinner *ngIf="showLoading"></ion-spinner>
+    <div  [ngSwitch]="option">
+        <ion-card *ngSwitchCase="'intro'">
+            <img   *ngIf="classData?.class_details.picture"  src="{{basePath+'/'+classData?.class_details.picture}}" />
+             
+            <ion-card-header>
+                {{classData?.class_name}}
+              </ion-card-header>
+     
+            <ion-card-content [innerHTML]="classData?.class_details.introduction">
+             
+            </ion-card-content>
+          
+          </ion-card>
+  
+          <ng-container *ngSwitchCase="'contents'"> 
+
+            <ion-list *ngFor="let lecture of classData?.lectures" style="margin-bottom:30px" (click)="openLecture(lecture.lecture_id)" >
+                <ion-list-header> 
+                    <h2 >{{  lecture.lecture_title }}</h2>
+                </ion-list-header>
+                <ion-item *ngFor="let content of lecture.contents">{{ content.title }}
+                    <ion-icon *ngIf="content.type=='v'" name="videocam" item-left></ion-icon> 
+                    <ion-icon *ngIf="content.type=='t'" name="book" item-left></ion-icon>
+                    <ion-icon *ngIf="content.type=='l'" name="videocam" item-left></ion-icon> 
+                    <ion-icon *ngIf="content.type=='q'" name="help" item-left></ion-icon>  
+                    <ion-icon *ngIf="content.type=='i'" name="images" item-left></ion-icon> 
+                    <ion-icon *ngIf="content.type=='c'" name="code" item-left></ion-icon> 
+
+                </ion-item>
+
+            </ion-list>
+            
+          </ng-container>
+  
+  
+          <ng-container *ngSwitchCase="'resources'"> 
+              <ion-card *ngIf="showProgress">
+                  <ion-card-header>
+                    Download Progress
+                  </ion-card-header>
+                  <ion-card-content>
+                      <progress-bar [progress]="progress"></progress-bar>
+                  </ion-card-content>
+                </ion-card>
+              <ion-card *ngFor="let file of classData?.downloads">
+                  <ion-card-header class="cardheader">
+                    {{ file.path.substring(file.path.lastIndexOf('/')+1) }}
+                   </ion-card-header> 
+                
+               
+                   <ion-row class="cardfooter">
+                     <ion-col>
+                           <button (click)="downloadFile(file.lesson_file_id,file.path.substring(file.path.lastIndexOf('/')+1))" ion-button  primary >Download</button>
+  
+                     </ion-col>
+                   </ion-row>
+                 </ion-card>
+  
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'discuss'">
+            <discuss [id]="course?.details.session_id" ></discuss>
+        </ng-container>
+        
+          </div>
+          <div style="height:100px"></div>
+</ion-content>
+<ion-footer no-border *ngIf="classData?.class_details.lesson_type=='c'">
+    <ion-toolbar transparent>
+      <button (click)="start()"  ion-button full large text-uppercase  >Start Class</button>
+    </ion-toolbar>
+  </ion-footer>

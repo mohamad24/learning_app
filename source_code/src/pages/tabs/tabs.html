@@ -1,0 +1,7 @@
+<ion-tabs #rootTabs>
+  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Browse" tabIcon="search"></ion-tab>
+  <ion-tab [root]="tab3Root" [tabBadge]="tab1BadgeCount>0 ? tab1BadgeCount : null" tabTitle="My Courses" tabIcon="book"></ion-tab>
+   <ion-tab [root]="tab4Root" tabTitle="Info" tabIcon="information-circle"></ion-tab>
+  <ion-tab [root]="tab5Root" tabTitle="My Account" tabIcon="person"></ion-tab>
+</ion-tabs>
