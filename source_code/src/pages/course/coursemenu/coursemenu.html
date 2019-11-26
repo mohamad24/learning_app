@@ -1,0 +1,24 @@
+<ion-menu [content]="mycontent"  persistent="true">
+  <ion-content class="menuMargin">
+    
+    <ion-list>
+        <ion-list-header>
+            Course Menu
+          </ion-list-header>
+     
+      <button ion-item  (click)="exit()"   >
+          <ion-icon name="exit" item-start></ion-icon>
+        Exit Course</button>
+        <button ion-item  (click)="intro()"   >
+            <ion-icon name="information-circle" item-start></ion-icon>
+          Introduction</button>
+          <button ion-item *ngFor="let class of course?.classes"   (click)="openClass(class.lesson_id)"  >
+              <ion-icon name="book" item-start></ion-icon>
+            {{class.lesson_name}}</button>
+    
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"  swipeBackEnabled="false" ></ion-nav>

@@ -1,0 +1,96 @@
+<ion-header>
+
+  <ion-navbar  color="primary">
+    <ion-title>My Courses</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <ion-card *ngIf="cartCourses.length > 0">
+        <ion-item>
+          <ion-icon name="cart" item-start></ion-icon>
+          <ion-label>Your Cart</ion-label> 
+        </ion-item>
+      
+        <ion-card-content>
+          <ion-list>
+              
+            <ion-item *ngFor="let course of cartCourses" text-wrap >
+              <ion-thumbnail item-start (click)="goToCourse(course.details.session_id)">
+                  <img  useImg  *ngIf="course.details.picture != ''"  src="{{ basePath+'/'+course.details.picture }}" />
+                  <img *ngIf="course.details.picture == ''"  width="100%"  src="assets/icon/course.png"/>
+                
+              </ion-thumbnail>
+           
+              <ion-label>
+                  <h2>{{course.details.session_name}}</h2>
+                  <h3 class="course_type">{{ (course.details.session_type=='c')? 'Online Course':'Training Session' }}</h3>
+                  <p *ngIf="currency"><ng-container *ngIf="course.details.amount > 0 && course.details.payment_required==1"  ><span [innerHTML]="(course.details.amount * currency.exchange_rate) | currency : currency.currency_symbol" ></span></ng-container> 
+                    <ng-container *ngIf="course.details.amount == 0 || course.details.payment_required==0" >Free</ng-container>  </p>
+
+              </ion-label>
+              <button ion-button  item-right icon-only (click)="removeFromCart(course)">
+                  <ion-icon name="close-circle"></ion-icon>
+                </button>
+             
+            </ion-item>
+      
+          </ion-list>
+    
+          <div padding>
+            <button (click)="order()" ion-button large type="submit" block  >Order Now</button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    
+      <ion-spinner *ngIf="showLoading && !courses"></ion-spinner>
+    <ion-card *ngIf="courses && authenticated">
+      <ion-item>
+        <ion-icon name="book" item-start></ion-icon>
+        <ion-label>Enrolled Courses</ion-label> 
+      </ion-item>
+    
+      <ion-card-content *ngIf="courses">
+        <ion-list>
+            
+          <ion-item *ngFor="let course of courses"   (click)="resume(course)" text-wrap >
+            <ion-thumbnail item-start>
+                <img  useImg  *ngIf="course.picture != ''"  src="{{ basePath+'/'+course.picture }}" />
+                <img *ngIf="course.picture == ''"  width="100%"  src="assets/icon/course.png"/>
+              
+            </ion-thumbnail>
+         
+            <ion-label>
+                <h2>{{course.session_name}}</h2>
+                <h3 class="course_type">{{ (course.session_type=='c')? 'Online Course':'Training Session' }}</h3>
+                <p><ng-container *ngIf="course.amount > 0 && course.payment_required==1" >{{ (course.amount * currency.exchange_rate) | currency : currency.currency_symbol }}</ng-container> 
+                  <ng-container *ngIf="course.amount == 0 || course.payment_required==0" >Free</ng-container>  </p>
+
+            </ion-label>
+          
+           
+          </ion-item>
+    
+        </ion-list>
+  
+        <p *ngIf="courses.length==0">
+          You have not enrolled into any course yet.
+           
+        </p>
+       
+      </ion-card-content>
+    </ion-card>
+  
+    <ion-card *ngIf="!authenticated">
+      <ion-card-content>
+        <h2>Please login to view your courses</h2>
+        <div padding>
+          <button ion-button large type="button" (click)="goToLogin()" block  >Login</button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+</ion-content>

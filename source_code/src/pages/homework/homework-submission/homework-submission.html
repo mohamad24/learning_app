@@ -1,0 +1,82 @@
+<!--
+  Generated template for the HomeworkSubmissionPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Submit Homework: {{ post?.title }}</ion-title>
+    <ion-buttons   right   >
+        <button ion-button icon-only (click)="close()">
+            <ion-icon name="close-circle"></ion-icon>
+        </button>
+  
+      </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar  no-border-top  color="primary"> 
+      <ion-segment [(ngModel)]="option"  color="light" >
+          <ion-segment-button value="answer">
+          Your Answer
+          </ion-segment-button>
+          <ion-segment-button value="question">
+            Question
+          </ion-segment-button>
+        </ion-segment>
+</ion-toolbar>
+</ion-header>
+
+
+<ion-content padding *ngIf="post">
+<div  [ngSwitch]="option">
+
+    <ion-list  *ngSwitchCase="'answer'">
+
+        <ion-item *ngIf="post.assignment_type=='t' || post.assignment_type=='b'">
+          <ion-label floating>Your Answer</ion-label>
+          <ion-textarea  autosize name="content" [(ngModel)]="answer.content" ></ion-textarea>
+        </ion-item>
+
+        <ion-item *ngIf="post.assignment_type=='f' || post.assignment_type=='b'">
+            
+            <p *ngIf="file">{{ file.substring(file.lastIndexOf('/')+1) }}</p>
+            <button ion-button (click)="selectFile()"><ion-icon name="cloud-upload"></ion-icon> Select File</button>
+          </ion-item>
+  
+
+      
+        <ion-item>
+          <ion-label floating>Additional Comment (Optional)</ion-label>
+          <ion-textarea  autosize name="student_comment" [(ngModel)]="answer.student_comment" ></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Status</ion-label>
+            <ion-select [(ngModel)]="answer.submitted">
+              <ion-option value="1">Submitted</ion-option>
+              <ion-option value="0">Draft</ion-option> 
+            </ion-select>
+          </ion-item>
+      
+      </ion-list>
+
+      <ion-card *ngSwitchCase="'question'">
+        <ion-card-header>
+            <div class="card-title">{{ post?.title }}</div>
+        </ion-card-header>
+        <ion-card-content [innerHTML]="post?.instruction" >
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+</ion-content>
+
+<ng-container [ngSwitch]="option">
+<ion-footer no-border  *ngSwitchCase="'answer'" style="margin:0px; padding: 0px" >
+ 
+    <ion-toolbar transparent style="margin:0px; padding: 0px">
+      <button (click)="submit()"  ion-button full large text-uppercase  >Submit Homework</button>
+    </ion-toolbar>
+  </ion-footer>
+</ng-container>

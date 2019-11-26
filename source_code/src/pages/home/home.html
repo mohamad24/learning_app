@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>{{settings?.settings.general_site_name }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ng-container *ngIf="settings">
+  <ng-container  *ngFor="let widget of settings?.widgets">
+      <div id="wrapper">
+      <ion-slides *ngIf="widget.widget_code == 'slideshow'"  autoHeight="true"  pager="true">
+        <ng-container  *ngFor="let slide of widgetArray; index as i" >          
+          <ion-slide *ngIf="widget.value['slideshow_image'+(i+1)] != ''" >
+            
+            <img  useImg width="100%"  [src]="settings?.base_path+'/'+widget.value['slideshow_image'+(i+1)]" />
+
+          </ion-slide> 
+        </ng-container>
+        </ion-slides>
+        </div>
+
+
+        <ng-container *ngIf="widget.widget_code == 'text'" ><p [innerHTML]="widget.value.message" ></p></ng-container>     
+        <div   *ngIf="widget.widget_code == 'sessions'"  class="featured_slide">
+        <ion-slides   slidesPerView="2">
+            <ion-slide  *ngFor="let session of widget.value" (click)="goToCourse(session.session_id)">
+                <ion-card > 
+                    <img   useImg  fallbackUrl="assets/icon/loading.gif"  *ngIf="session.picture != ''" width="100%" src="{{ settings?.base_path+'/'+session.picture }}" />
+                    <img *ngIf="session.picture == ''"  width="100%"  src="assets/icon/course.png"/>
+            
+
+                    <ion-card-content>
+                      
+                      <p style="text-align: left; margin-top: 10px ">
+                         {{session.session_name}}
+                      </p>
+                    </ion-card-content>
+                    
+  <ion-row> 
+      <ion-col>
+        <ion-note>
+          <div  style="text-align:left" >
+         <ng-container *ngIf="session.amount > 0 && session.payment_required==1 && currency" ><span [innerHTML]="(session.amount * currency.exchange_rate) | currency : currency.currency_symbol" ></span></ng-container> 
+          <ng-container *ngIf="session.amount == 0 || session.payment_required==0" >Free</ng-container>
+        </div>
+        </ion-note>
+      </ion-col>
+    </ion-row>
+                  </ion-card>
+            </ion-slide>
+
+
+        </ion-slides>
+      </div>
+
+      <ng-container *ngIf="widget.widget_code == 'blog'" >
+        <h4>Blog</h4>
+        <div>
+        <ion-slides>
+          <ion-slide  *ngFor="let post of widget.value"   (click)="goToPost(post.id)" >
+              <ion-card>
+             
+                  <img  useImg  fallbackUrl="assets/icon/loading.gif"  *ngIf="post.picture != ''" width="100%" src="{{ settings?.base_path+'/'+post.picture }}" />
+                
+                  <ion-card-content class="blog" >
+                    <ion-card-title>
+                      {{ post.title }}
+                      </ion-card-title>
+                    <p>
+                      <small>{{ post.date }}</small> <br/>
+                      {{ post.content }}
+                    </p>
+                  </ion-card-content>
+                </ion-card>
+          </ion-slide>
+        </ion-slides>
+      </div>
+
+      </ng-container>
+
+
+        
+  </ng-container>
+
+</ng-container>
+
+
+</ion-content>
+ 

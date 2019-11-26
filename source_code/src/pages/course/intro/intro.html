@@ -1,0 +1,157 @@
+<ion-header >
+
+    <ion-navbar color="primary">
+        <ion-buttons left> 
+            <button ion-button menuToggle >
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        
+      <ion-title>Introduction</ion-title>
+    </ion-navbar>
+  
+    <ion-toolbar no-border-top  color="primary">
+        <ion-segment [(ngModel)]="option" color="light" >
+          <ion-segment-button value="intro">
+           Intro
+          </ion-segment-button>
+          <ion-segment-button value="contents">
+            Contents
+          </ion-segment-button>
+          <ion-segment-button value="resources">
+            Resources
+          </ion-segment-button>
+          <ion-segment-button value="progress">
+            Progress
+          </ion-segment-button>
+          <ion-segment-button value="discuss">
+            Discuss
+          </ion-segment-button>
+        </ion-segment>
+      </ion-toolbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding>
+      <div  [ngSwitch]="option">
+      <ion-card *ngSwitchCase="'intro'">
+          <ion-card-header>
+              {{course?.details.session_name}}
+            </ion-card-header>
+   
+          <ion-card-content [innerHTML]="course?.details.introduction">
+           
+          </ion-card-content>
+        
+        </ion-card>
+
+        <ng-container *ngSwitchCase="'contents'">
+            <ion-spinner *ngIf="showLoading"></ion-spinner>
+          <ion-card *ngFor="let class of introData?.classes" > 
+            <img onError="this.src='assets/icon/course.png';" *ngIf="class?.picture && class?.picture != ''"  src="{{ basePath+'/'+class.picture }}"/>
+            <ion-card-header> 
+                <div class="card-title">{{class.lesson_name}}</div>
+        
+            </ion-card-header>
+            <ion-card-content>
+                <p [innerHTML]="class.content" ></p>
+                <ion-list>
+                    <ion-list-header>
+                      Lectures
+                    </ion-list-header>
+                    <ion-item *ngFor="let lecture of class.lectures" (click)="openLecture(lecture.lecture_id)">{{ lecture.lecture_title }}</ion-item>
+                </ion-list>
+            </ion-card-content>
+            <ion-row class="cardfooter">
+                <ion-col>
+                      <button  (click)="openClass(class.lesson_id)" ion-button primary >Start Class</button>
+                </ion-col>
+              </ion-row>
+        </ion-card>
+        </ng-container>
+
+
+        <ng-container *ngSwitchCase="'resources'">
+            <ion-spinner *ngIf="showLoading"></ion-spinner>
+            <ion-card *ngFor="let resource of introData?.downloads">
+                <ion-card-header class="cardheader">
+                  {{ resource.download_name }}
+                 </ion-card-header> 
+              
+             
+                 <ion-row class="cardfooter">
+                   <ion-col>
+                         <button (click)="download(resource)" ion-button  primary >Download</button>
+
+                   </ion-col>
+                 </ion-row>
+               </ion-card>
+
+        </ng-container>
+
+
+        <ng-container *ngSwitchCase="'progress'">
+
+            <ion-card *ngIf="introData">
+                <ion-card-header>
+                  Progress
+                </ion-card-header>
+                <ion-card-content>
+                    <progress-bar [progress]="introData.percentage"></progress-bar>
+                </ion-card-content>
+              </ion-card>
+
+              <ion-list> 
+                  <ion-list-header>
+                      <ion-icon name="book" item-left></ion-icon>
+                       <h2 style="display: inline-block;">Classes Attended</h2>
+                  </ion-list-header>
+                <ion-item *ngFor="let class of introData?.classesAttended">
+                  <ion-label>{{ class.lesson_name }}
+                      <br>
+                      <small>Completed: {{ class.attendance_date | makeint | date  }}</small>
+
+                  </ion-label>
+                  
+                  <button ion-button  item-right (click)="openClass(class.lesson_id)">
+                      <ion-icon name="play"></ion-icon> View
+                    </button>
+                </ion-item>
+                
+                </ion-list>
+
+                <ion-list> 
+                    <ion-list-header>
+                        <ion-icon name="book" item-left></ion-icon>
+                         <h2 style="display: inline-block;">Pending Classes</h2>
+                    </ion-list-header>
+                  <ion-item *ngFor="let class of introData?.pendingClasses">
+                    <ion-label>{{ class.lesson_name }}</ion-label>
+                    
+                    <button ion-button  item-right  (click)="openClass(class.lesson_id)">
+                        <ion-icon name="play"></ion-icon> Start
+                      </button>
+                  </ion-item>
+                  
+                  </ion-list>
+
+
+        </ng-container>
+
+
+        <ng-container *ngSwitchCase="'discuss'">
+            <discuss [id]="course?.details.session_id" ></discuss>
+        </ng-container>
+
+
+        </div>
+
+
+  </ion-content>
+  
+  <ion-footer no-border *ngIf="course?.details.session_type != 's'">
+      <ion-toolbar transparent>
+        <button (click)="start()"  ion-button full large text-uppercase  >Start Course</button>
+      </ion-toolbar>
+    </ion-footer>

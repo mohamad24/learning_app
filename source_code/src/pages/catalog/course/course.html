@@ -1,0 +1,164 @@
+<!--
+  Generated template for the CoursePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>{{course?.details.session_name}}</ion-title>
+    <ion-buttons   right *ngIf="course"  >
+        <button ion-button icon-only (click)="presentPopover($event)">
+          <ion-icon name="more"></ion-icon>
+        </button>
+  
+      </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-spinner *ngIf="showLoading"></ion-spinner>
+    <ion-card *ngIf="showRetry">
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                  <ion-col>
+                   
+                      <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                     
+                  </ion-col>
+                  <ion-col size="8">Network Error. Please try again</ion-col>
+                  <ion-col>
+                    <button ion-button (click)="retry()"><ion-icon name="refresh"></ion-icon>
+                    Try Again
+                    </button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            
+        </ion-card-content>
+    </ion-card>
+  
+    
+    <ion-card *ngIf="course" > 
+        <img onError="this.src='assets/icon/course.png';" *ngIf="course?.details.picture != ''"  src="{{ basePath+'/'+course.details.picture }}"/>
+        <ion-card-header>
+          <div class="card-title"  text-wrap >{{course?.details.session_name}}</div>
+          <div class="card-subtitle"><small>{{ course?.details.session_type=='c' ? 'Online Course':'Training Session' }}</small></div> 
+          
+        </ion-card-header>
+        <ion-card-content>
+            <p [innerHTML]="course?.details.short_description" ></p>
+            <ion-grid>
+                  <ion-row *ngIf="course.details.session_date > 0" class="lower-border">
+                      <ion-col  size="6"><strong>Starts:</strong></ion-col>
+                      <ion-col  size="6">{{ course.details.session_date | date }}</ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="course.details.session_end_date > 0" class="lower-border">
+                          <ion-col  size="6"><strong>Ends:</strong></ion-col>
+                          <ion-col  size="6">{{ course.details.session_end_date | date }}</ion-col>
+                      </ion-row>
+                  <ion-row *ngIf="course.details.enrollment_closes > 0" class="lower-border">
+                              <ion-col  size="6"><strong>Enrollment Closes:</strong></ion-col>
+                              <ion-col  size="6">{{ course.details.enrollment_closes | date }}</ion-col>
+                          </ion-row>
+                          <ion-row *ngIf="course.details.length !=''" class="lower-border">
+                                  <ion-col  size="6"><strong>Length:</strong></ion-col>
+                                  <ion-col  size="6">{{ course.details.length }}</ion-col>
+                              </ion-row>
+  
+                              <ion-row *ngIf="course.details.effort !=''" class="lower-border">
+                                      <ion-col  size="6"><strong>Effort:</strong></ion-col>
+                                      <ion-col  size="6">{{ course.details.effort }}</ion-col>
+                                  </ion-row>
+              </ion-grid>
+  
+             
+  
+            
+        </ion-card-content>
+    </ion-card>
+  <ng-container  *ngIf="course">
+    <ion-segment  [(ngModel)]="option">
+        <ion-segment-button value="details">
+          Details
+        </ion-segment-button>
+        <ion-segment-button value="classes">
+          Classes
+        </ion-segment-button>
+        <ion-segment-button value="instructors">
+            Instructors
+          </ion-segment-button>
+      </ion-segment>
+  
+      <ng-container  [ngSwitch]="option">
+  
+        <div  padding  *ngSwitchCase="'details'"  [innerHTML]="course?.details.description" >        
+  
+        </div>
+  
+        <div padding *ngSwitchCase="'classes'" >        
+  
+            <ion-card *ngFor="let class of course?.classes" > 
+                <img onError="this.src='assets/icon/course.png';" *ngIf="class?.picture && class?.picture != ''"  src="{{ basePath+'/'+class.picture }}"/>
+                <ion-card-header> 
+                    <div class="card-title"  text-wrap >{{class.lesson_name}}</div>
+                    <div *ngIf="class.lesson_date != ''" class="card-subtitle">starts {{ class.lesson_date }}</div>
+                     
+                </ion-card-header>
+                <ion-card-content>
+                    <p [innerHTML]="class.content" ></p>
+                </ion-card-content>
+            </ion-card>
+  
+          </div>
+  
+          <div padding  *ngSwitchCase="'instructors'" >    
+              <ion-list  >
+            
+                  <ion-item *ngFor="let instructor of course?.instructors" text-wrap >
+                    <ion-thumbnail  item-start>
+                        <img onError="this.src='assets/icon/user.png';" *ngIf="instructor.picture != ''"  src="{{ settings?.base_path+'/'+instructor.picture }}"/>
+                        <img *ngIf="course.picture == ''"  width="100%"  src="assets/icon/user.png"/>
+                      
+                    </ion-thumbnail>
+                 
+                 
+                        <h2>{{instructor.first_name}} {{ instructor.last_name }}</h2> 
+                        <p> {{ instructor.account_description }} </p>
+                    
+                    
+                   
+                  </ion-item>
+            
+                </ion-list>
+  
+          </div>
+  
+      </ng-container>
+      <div style="margin-bottom:60px"></div>
+    </ng-container>
+
+</ion-content>
+
+<ion-footer *ngIf="course">
+    <ion-toolbar >
+    <ion-buttons right>
+        <button ion-button round solid icon-start  color="primary" (click)="addToCart()"    *ngIf="!course.enrolled">
+            <ion-icon  name="person-add"></ion-icon>
+            Enroll Now
+          </button>
+
+          <button ion-button  round solid icon-start  color="primary"  *ngIf="course.enrolled" (click)="resume()" >
+              <ion-icon name="play"></ion-icon>
+              Resume
+            </button>
+      </ion-buttons>
+      <ion-title left *ngIf="settings?.settings.general_show_fee==1">     <ng-container *ngIf="course?.details.amount > 0 && course?.details.payment_required==1" ><span [innerHTML]="(course?.details.amount * currency.exchange_rate) | currency : currency.currency_symbol" ></span></ng-container> 
+        <ng-container *ngIf="course?.details.amount == 0 || course?.details.payment_required==0" >Free</ng-container> 
+  </ion-title>
+</ion-toolbar>
+</ion-footer>

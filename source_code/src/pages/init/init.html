@@ -1,0 +1,19 @@
+
+<ion-content padding>
+  <div *ngIf="error">
+    <p>A network connection error has occured. Please check your internet connection and try again.</p>
+
+    <div style="text-align: center">
+        <ion-icon name="wifi"  style="zoom:4.0; font-size: 70px;"></ion-icon>
+        <br/>
+        <!-- Icons -->
+      <button ion-button icon-start  (click)="reload()" >
+        <ion-icon name="refresh-circle"></ion-icon>
+        Try Again
+      </button>
+
+      
+    </div>
+     
+  </div>
+</ion-content>

@@ -1,0 +1,64 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Checkout</ion-title>
+
+
+    <ion-buttons right  > 
+        <button ion-button (click)="presentPopover($event)">
+          <ion-icon name="arrow-dropdown"></ion-icon>
+          {{ currency?.currency_code }}  (<span [innerHTML]="currency?.currency_symbol" ></span>)
+        </button> 
+      </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-card>
+    <ion-card-header>
+      Payment Method
+    </ion-card-header>
+    <ion-card-content *ngIf="paymentMethods">
+        <ion-list radio-group [(ngModel)]="method">
+
+            <ion-list-header>
+              Select a payment method
+            </ion-list-header>
+          
+            <ion-item *ngFor="let method of paymentMethods">
+              <ion-label>{{method.method_label}}</ion-label>
+              <ion-radio value="{{method.payment_method_id}}"></ion-radio>
+            </ion-item>
+          
+         
+          </ion-list>
+    
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Coupon
+    </ion-card-header>
+    <ion-card-content>
+      <small>Enter a coupon code if you have one</small>
+      <div>
+        <ion-item>
+        <ion-input [(ngModel)]="coupon"  required  type="text" name="coupon" placeholder="Coupon Code"></ion-input>
+      </ion-item>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer no-border>
+    <ion-toolbar transparent>
+      <button (click)="payment()" ion-button full large text-uppercase [disabled]="!method" >Proceed To Payment</button>
+    </ion-toolbar>
+  </ion-footer>
+  

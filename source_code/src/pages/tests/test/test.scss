@@ -1,0 +1,15 @@
+page-test {
+    .footer .toolbar{
+        padding:0px;
+    }
+
+    .footer button{
+        margin-bottom: 0px;
+    }
+
+    ion-footer {
+        &.footer-md::before {
+            background-image: none;
+        }
+    }
+}

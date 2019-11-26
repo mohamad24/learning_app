@@ -1,0 +1,5 @@
+{
+  "globalDependencies": {
+    "app": "file:./src/app-typings/app.d.ts"
+  }
+}

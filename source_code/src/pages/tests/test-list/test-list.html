@@ -1,0 +1,104 @@
+<!--
+  Generated template for the TestListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Tests</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+  <ion-card *ngIf="!networkPresent">
+    <ion-card-content>
+        <ion-grid>
+            <ion-row>
+              <ion-col>
+               
+                  <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                 
+              </ion-col>
+              <ion-col size="10">Network unavailable! Please check your connection.</ion-col>
+              
+            </ion-row>
+          </ion-grid>
+        
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="networkPresent && showRetry">
+    <ion-card-content>
+        <ion-grid>
+            <ion-row>
+              <ion-col>
+               
+                  <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+                 
+              </ion-col>
+              <ion-col size="8">Network Error. Please try again</ion-col>
+              <ion-col>
+                <button ion-button (click)="reloadTests(1)"><ion-icon name="refresh"></ion-icon>
+                Try Again
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        
+    </ion-card-content>
+  </ion-card>
+
+
+      
+  <ion-spinner *ngIf="showLoading"></ion-spinner>
+  <p  *ngIf="(!tests && !showLoading) || (tests && tests.length==0)" >There are no tests to display</p>
+
+  <ng-container *ngIf="tests">
+      <ion-card *ngFor="let test of tests"  > 
+           <ion-card-header> 
+              <div class="card-title">{{ test.name }}</div> 
+          </ion-card-header>
+          <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col><strong>Questions</strong></ion-col>
+                  <ion-col>{{ test.total_questions }}</ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col><strong>Minutes Allowed</strong></ion-col>
+                  <ion-col>{{ (test.minutes>0)? test.minutes:'Unlimited' }}</ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col><strong>Attempts Allowed</strong></ion-col>
+                  <ion-col>{{ (test.allow_multiple==1)?'Multiple':'Single' }}</ion-col>
+                </ion-row>
+                <ion-row *ngIf="test.passmark > 0">
+                  <ion-col><strong>Passmark</strong></ion-col>
+                  <ion-col>{{ test.passmark }}%</ion-col>
+                </ion-row>
+                  
+              </ion-grid>
+          </ion-card-content>
+          <ion-row class="cardfooter">
+            <ion-col *ngIf="test.can_take">
+                  <button ion-button (click)="takeTest(test.test_id)" ><ion-icon name="play"></ion-icon> Take Test</button>
+            </ion-col>
+            <ion-col *ngIf="test.show_result==1 && test.total_attempts > 0">
+              <button ion-button color="secondary" (click)="openResults(test.test_id,test)" ><ion-icon name="list"></ion-icon> Your Results</button>
+            </ion-col>
+          </ion-row>
+      </ion-card>
+
+  </ng-container>
+
+
+  <ion-infinite-scroll (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+</ion-content>
