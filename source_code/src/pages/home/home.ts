@@ -17,23 +17,23 @@ export class HomePage {
   public currency;
   public exchangeRate;
   public sliderOptions = { pager: true, autoHeight: true };
-  constructor (public platform:Platform,public app:App,private apiService:ApiProvider,private settingService: SettingsProvider,private navCtr:NavController,private modalController:ModalController){
-    
-  }
-  
-  ngOnInit() {
- console.log('page loaded');
-      this.loadSetup();
-     
-  
+  constructor(public platform: Platform, public app: App, private apiService: ApiProvider, private settingService: SettingsProvider, private navCtr: NavController, private modalController: ModalController) {
+
   }
 
-  async ionViewWillEnter(){
+  ngOnInit() {
+    console.log('page loaded');
+    this.loadSetup();
+
+
+  }
+
+  async ionViewWillEnter() {
     this.currency = await this.settingService.getCurrency();
     console.log('Entered browse view');
   }
 
-  loadSetup(){
+  loadSetup() {
     this.widgetArray = new Array(10);
     // this.settingService.getSetting('settings').then(res=>{
     //      console.log(res.general_site_name);
@@ -43,42 +43,30 @@ export class HomePage {
 
     this.settingService.getSettings().then(val => {
       // this.settingStatus = true;
-       
-        if(!val){
-          console.log('no exception');
-                // this.router.navigateByUrl('/init');
-                this.presentModal();
-              }
-              else{
-                this.loadValues(val);
-                // this.settingService.storeSettings(false); 
-                
-              this.apiService.getSettings().subscribe(res => {
-                console.log(res);
-                  this.settingService.saveSettings(res);
-                  if(!(JSON.stringify(res) === JSON.stringify(val) )){
-                    this.loadValues(res);
-                  }
-                  
-                
-              }, err => {
-                  console.log(err.message);
-              });
 
-              
-              }
-       
-     
+      if (!val) {
+        console.log('no exception');
+        // this.router.navigateByUrl('/init');
+        this.presentModal();
+      }
+      else {
+        this.loadValues(val);
+        // this.settingService.storeSettings(false); 
 
-     
-
-
-  })
-  
-  
+        this.apiService.getSettings().subscribe(res => {
+          console.log(res);
+          this.settingService.saveSettings(res);
+          if (!(JSON.stringify(res) === JSON.stringify(val))) {
+            this.loadValues(res);
+          }
+        }, err => {
+          console.log(err.message);
+        });
+      }
+    })
   }
 
- async loadValues(val){
+  async loadValues(val) {
     this.settings = val;
     // let currency =  val.student_currency;
     // //get exchange rate for currency
@@ -90,40 +78,40 @@ export class HomePage {
     //       currencyObj = obj;
     //     }
     // }
-    
-  //  this.currency = currencyObj;
+
+    //  this.currency = currencyObj;
     this.currency = await this.settingService.getCurrency();
- 
+
     console.log(this.currency);
   }
 
   presentModal() {
-    const modal =  this.modalController.create(InitPage);
+    const modal = this.modalController.create(InitPage);
 
-    modal.onDidDismiss(res=>{
-        this.loadSetup();
+    modal.onDidDismiss(res => {
+      this.loadSetup();
     });
 
-    return  modal.present();
+    return modal.present();
   }
 
-  async getAllSettings(){
+  async getAllSettings() {
     return await this.settingService.getSettings();
   }
- 
-  goToPost(id){
+
+  goToPost(id) {
     // this.navCtr.navigateForward('/blogdetail/'+id);
-    this.navCtr.push('BlogdetailPage',{id:id});
-  }
-  
-  goToCourse(id){
-    // this.navCtr.navigateForward('/course/'+id);
-    let nav = this.app.getRootNav();
-    nav.push('CoursePage',{id:id});
-    
+    this.navCtr.push('BlogdetailPage', { id: id });
   }
 
-  backButtonAction(){
+  goToCourse(id) {
+    // this.navCtr.navigateForward('/course/'+id);
+    let nav = this.app.getRootNav();
+    nav.push('CoursePage', { id: id });
+
+  }
+
+  backButtonAction() {
     this.platform.exitApp();
   }
 }

@@ -41,7 +41,7 @@
     "@ionic-native/streaming-media": "^4.19.0",
     "@ionic/storage": "2.2.0",
     "com-badrit-base64": "0.2.0",
-    "cordova-android": "^7.1.4",
+    "cordova-android": "^8.1.0",
     "cordova-plugin-advanced-http": "2.0.4",
     "cordova-plugin-android-permissions": "1.0.0",
     "cordova-plugin-app-version": "0.1.9",

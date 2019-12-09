@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar  color="primary">
+  <ion-navbar color="primary">
     <ion-title>Info</ion-title>
   </ion-navbar>
 
@@ -14,48 +14,49 @@
 
 
 <ion-content padding>
-   
-    <ion-card *ngIf="!networkPresent">
-        <ion-card-content>
-            <ion-grid>
-                <ion-row>
-                  <ion-col>
-                   
-                      <ion-icon name="wifi" style="font-size:30px"></ion-icon>
-                     
-                  </ion-col>
-                  <ion-col size="10">Network unavailable! Please check your connection.</ion-col>
-                  
-                </ion-row>
-              </ion-grid>
-            
-        </ion-card-content>
-      </ion-card>
- 
-      <ion-card *ngIf="networkPresent && showRetry">
-          <ion-card-content>
-              <ion-grid>
-                  <ion-row>
-                    <ion-col>
-                     
-                        <ion-icon name="wifi" style="font-size:30px"></ion-icon>
-                       
-                    </ion-col>
-                    <ion-col size="8">Network Error. Please try again</ion-col>
-                    <ion-col>
-                      <button ion-button (click)="loadInfo()"><ion-icon name="refresh"></ion-icon>
-                      Try Again
-                      </button>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              
-          </ion-card-content>
-        </ion-card>
-   
-        <ion-spinner *ngIf="showLoading"></ion-spinner>
-<ion-card>
-    <ion-item *ngFor="let article of articles"   (click)="openArticle(article.article_id)" > 
+
+  <ion-card *ngIf="!networkPresent">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+
+            <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+
+          </ion-col>
+          <ion-col size="10">Network unavailable! Please check your connection.</ion-col>
+
+        </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="networkPresent && showRetry">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+
+            <ion-icon name="wifi" style="font-size:30px"></ion-icon>
+
+          </ion-col>
+          <ion-col size="8">Network Error. Please try again</ion-col>
+          <ion-col>
+            <button ion-button (click)="loadInfo()">
+              <ion-icon name="refresh"></ion-icon>
+              Try Again
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-spinner *ngIf="showLoading"></ion-spinner>
+  <ion-card>
+    <!-- <ion-item *ngFor="let article of articles" (click)="openArticle(article.article_id)">
       <ion-label>{{ article.article_name }}</ion-label>
     </ion-item>
   
@@ -64,13 +65,14 @@
         <ion-label>Blog</ion-label>
       </ion-item> -->
     <ion-item (click)="openPage('TermsPage')" > 
+
       <ion-label>Terms & Conditions</ion-label>
     </ion-item>
-  
-    <ion-item  (click)="openPage('PrivacyPage')"  > 
+
+    <ion-item (click)="openPage('PrivacyPage')">
       <ion-label>Privacy Policy</ion-label>
     </ion-item>
-    <ion-item  (click)="openPage('AppInfoPage')"  > 
+    <ion-item (click)="openPage('AppInfoPage')">
       <ion-label>App Info</ion-label>
     </ion-item>
 
