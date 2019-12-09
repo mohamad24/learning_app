@@ -181,6 +181,8 @@ export class TestPage {
       this.loading.dismiss();
        
         this.result = resp;
+        console.log(resp);
+        console.log('sssssss');
      
 
   },err=>{

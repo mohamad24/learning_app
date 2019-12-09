@@ -70,13 +70,28 @@
         <ion-card-header>Test Complete!</ion-card-header>
         <ion-card-content >
           <p>You have successfully completed this test.</p>
-          <p *ngIf="test?.show_result==1">You scored {{ result.score }}%</p>
+          <p>You scored {{ result.score }}%</p>
           <p *ngIf="test?.show_result==1">Grade: {{ (result.score >= test?.passmark)? 'Passed':'Failed' }}</p>
           <br/>
           <ng-container *ngIf="result.score >= test?.passmark && classId">
               <p>You may now continue the course</p>
               <button (click)="continueCourse()" ion-button full large text-uppercase >Continue Course</button>
           </ng-container>      
+        </ion-card-content>
+
+        <ion-card-content *ngIf="result?.emp == True" >
+          <p class="lead"> Congratulations on your well-deserved success <strong>Please check your email</strong> and find your akram app credential</p>
+          <hr>
+          <p>
+
+          <p>
+              Go to akram app website <a href="http://akramapp.com">website</a>
+            </p>
+            <hr>
+              <p>
+              Go to akram portal login app website <a href="https://akramportal.org/akram/index.php/Authentication/login">login</a>
+            </p>
+        
         </ion-card-content>
     </ion-card>
 

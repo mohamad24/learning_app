@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ɵConsole } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, Events, PopoverController, App, Content } from 'ionic-angular';
 import { UtilsProvider } from '../../providers/utils/utils';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { ApiProvider } from '../../providers/api/api';
 import { SettingsProvider } from '../../providers/settings/settings';
 import { AccountPopoverPage } from './acountpages/account-popover/account-popover';
+
 
 /**
  * Generated class for the AccountPage page.
@@ -30,6 +31,8 @@ export class AccountPage {
 
   constructor(public app:App,public events:Events, public navCtrl: NavController, public navParams: NavParams,private utils:UtilsProvider, private authenticationService: AuthenticationProvider,private apiService:ApiProvider,private loadingController:LoadingController,private settingsService:SettingsProvider,private alertController:AlertController,public popoverCtrl: PopoverController) { }
 
+
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccountPage');
   }
@@ -38,12 +41,16 @@ export class AccountPage {
     this.student={
       'first_name':'',
       'last_name':'',
+      'dateofbirth': '',
+      'gender': '',
+      'nationality': '',
       'email':'',
       'mobile_number':'',
       'password':'',
       'confirm_password':''
     };
 
+    
      this.authenticationService.authenticationState.subscribe(state => {
       this.content.resize();
         this.loggedIn = state;
@@ -60,6 +67,7 @@ export class AccountPage {
 
   }
 
+  
   onLogin(){
     console.log('Attempt to login');
     this.presentLoading();
@@ -96,10 +104,12 @@ export class AccountPage {
     }
     else if(registerForm.form.valid){
       this.presentLoading();
+      console.log(this.student);
     this.apiService.register(this.student).subscribe(res=>{
       this.loading.dismiss();
       let status = res['status'];
       if(status!=true){
+        console.log(res['msg']);
         this.presentAlert('Registration Failed!',res['msg']);
       }
       else{ 
