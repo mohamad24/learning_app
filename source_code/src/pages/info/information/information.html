@@ -58,13 +58,14 @@
   <ion-card>
     <!-- <ion-item *ngFor="let article of articles" (click)="openArticle(article.article_id)">
       <ion-label>{{ article.article_name }}</ion-label>
-    </ion-item> -->
+    </ion-item>
+  
+     
+    <!-- <ion-item  (click)="openPage('BlogPage')"  > 
+        <ion-label>Blog</ion-label>
+      </ion-item> -->
+    <ion-item (click)="openPage('TermsPage')" > 
 
-
-    <!-- <ion-item (click)="openPage('BlogPage')">
-      <ion-label>Blog</ion-label>
-    </ion-item> -->
-    <ion-item (click)="openPage('TermsPage')">
       <ion-label>Terms & Conditions</ion-label>
     </ion-item>
 

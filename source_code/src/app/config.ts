@@ -1,3 +1,4 @@
 export const CONFIG = { 
-   apiUrl:'https://demov1.traineasy.net/api/v1' 
+   apiUrl:'http://akramlearning.akramportal.org/api/v1'
+
 }
